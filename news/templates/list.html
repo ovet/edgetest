@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block template_title %}Latest News{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/jquery.js"></script>
+<script type="text/javascript">
+setInterval(function() {
+	var response = $.ajax({ type: "GET",
+    	                    url: "reload/",
+        	                async: false
+            	          }).responseText;
+	if(response == "1"){
+		location.reload(true);
+	}
+}, 3000);
+</script>
+ {% endblock %}
+
+{% block content %}
+    <div class="container">
+    	<h1>Latest News</h1>
+    	<ul>
+        {% for article in articles %}
+        <li>
+            <a href="view/{{ article.id }}">{{ article.title }}</a>
+        </li>
+        {% endfor %}
+        </ul>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block template_title %}Create new article{% endblock %}
+
+{% block content %}
+
+<!-- Page Content -->
+{% if form.is_valid %} <div class="block-center text-center alert-success">Article saved (<a href="/view/{{ id }}">view here</a>)</div>{% endif %}
+    <div class="menu">
+        <div class="container">
+            <h1>Post a new story</h1><br>
+            <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+
+
+{% endblock %}
