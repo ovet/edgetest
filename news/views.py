@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.template.context_processors import csrf
 from django.shortcuts import get_object_or_404
+from datetime import datetime, timedelta, timezone
 from .models import *
 from .forms import *
 
@@ -78,13 +79,11 @@ def show_list(request):
 	return render(request, template_name, context)
 
 
-
 def reload_page(request):
-	reload_bool = Reload.objects.all()[0]
-
-	if reload_bool.reloads:
-		reload_bool.reloads = False
-		reload_bool.save()
+	latest_news = Article.objects.filter(publish=True).order_by('-created')[0]
+	now = datetime.now(timezone.utc)
+	print(latest_news.created)
+	if (now - latest_news.created) < timedelta(seconds=5):
 		return HttpResponse(1)
 	else:
 		return HttpResponse(0)
